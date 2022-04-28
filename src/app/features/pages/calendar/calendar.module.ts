@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 
 import { CalendarComponent } from './calendar.component';
 import { CalendarRoutingModule } from './calendar.routing.module';
-import { CustomCalendarCellModule } from 'src/app/core/components/custom-calendar-cell/custom-calendar-cell.module';
 
 
 
@@ -20,7 +19,6 @@ import { CustomCalendarCellModule } from 'src/app/core/components/custom-calenda
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    CustomCalendarCellModule,
   ],
   exports: [CalendarComponent]
 })

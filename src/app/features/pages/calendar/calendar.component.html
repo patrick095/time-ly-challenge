@@ -67,13 +67,26 @@
       [refresh]="refresh"
       [activeDayIsOpen]="activeDayIsOpen"
       (dayClicked)="dayClicked($event.day)"
-      (eventClicked)="console.log($event)"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"
       [cellTemplate]="customCellTemplate"
     >
-    <app-custom-calendar-cell #customCellTemplate> teste</app-custom-calendar-cell>
     </mwl-calendar-month-view>
+    <ng-template #customCellTemplate let-day="day" let-locale="locale">
+      <div class="cal-cell-top">
+        <div *ngIf="day.badgeTotal > 0">
+          <span class="cal-day-badge" *ngFor="let event of day.events | slice:0:3" (click)="console(day)">{{ event.title }}</span>
+        </div>
+        <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+      </div>
+      <div class="cell-totals">
+        <span
+          *ngFor="let group of day.eventGroups"
+          class="badge badge-{{ group[0] }}">
+          {{ group[1].length }}
+        </span>
+      </div>
+    </ng-template>
     <mwl-calendar-week-view
       *ngSwitchCase="CalendarView.Week"
       [viewDate]="viewDate"

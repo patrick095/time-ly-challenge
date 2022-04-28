@@ -118,9 +118,13 @@ export class CalendarComponent {
     },
   ];
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
   constructor() {}
+
+  public console(item: any) {
+    console.log(item);
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {

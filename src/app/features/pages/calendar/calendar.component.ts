@@ -62,7 +62,9 @@ export class CalendarComponent implements OnInit {
     public search(value: string) {
         this.eventFinder = this.events.filter((event) => event.title.toLowerCase().includes(value));
         this.console(value);
-        if (value === '') this.eventFinder = [];
+        if (value === '') {
+            this.eventFinder = [];
+        }
     }
 
     public showSearch() {

@@ -3,23 +3,26 @@
         <div class="col-md-6">
             <div class="d-flex">
                 <div class="btn btn-outline-secondary mx-5" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
-                <div
-                    class="btn btn-next-prev"
-                    mwlCalendarPreviousView
-                    [view]="view"
-                    [(viewDate)]="viewDate"
-                    title="Previous"
-                    (viewDateChange)="closeOpenMonthViewDay()">
+                <div class="btn btn-next-prev" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" title="Previous">
                     <i class="fa-solid fa-chevron-left"></i>
                 </div>
-                <div
-                    class="btn btn-next-prev"
-                    mwlCalendarNextView
-                    [view]="view"
-                    [(viewDate)]="viewDate"
-                    title="Next"
-                    (viewDateChange)="closeOpenMonthViewDay()">
+                <div class="btn btn-next-prev" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" title="Next">
                     <i class="fa-solid fa-chevron-right"></i>
+                </div>
+                <div [ngClass]="['search', isShowSearchInput ? '' : 'hide-border']">
+                    <input
+                        type="text"
+                        [ngClass]="[isShowSearchInput ? '' : 'hide-input']"
+                        placeholder="Search event"
+                        #searchInput
+                        (input)="search($event.target.value)" />
+                    <div *ngIf="eventFinder.length > 0" class="datalist">
+                        <span *ngFor="let event of eventFinder" (click)="clickSearchResult(event)">{{ event.title }}</span>
+                    </div>
+
+                    <button type="submit" (click)="showSearch()" [ngClass]="['btn', isShowSearchInput ? 'btn-light' : 'btn-primary']">
+                        <i [ngClass]="['fa-solid', isShowSearchInput ? 'fa-xmark' : 'fa-magnifying-glass']"></i>
+                    </button>
                 </div>
                 <div class="col-md-4">
                     <h3>{{ viewDate | calendarDate: view + 'ViewTitle':'en' }}</h3>
@@ -33,7 +36,7 @@
             [events]="events"
             [refresh]="refresh"
             [activeDayIsOpen]="activeDayIsOpen"
-            (eventTimesChanged)="eventTimesChanged($event)"
+            (dayClicked)="openModal($event.day)"
             [cellTemplate]="customCellTemplate">
         </mwl-calendar-month-view>
     </div>
@@ -46,14 +49,14 @@
                 <span
                     class="cal-day-event"
                     *ngFor="let event of day.events | slice: 0:3"
-                    (click)="console(day)"
+                    (click)="console(event)"
                     [title]="event.title"
                     [ngStyle]="{
                         'background-color': event?.color?.secondary,
                         color: event?.color?.primary,
                         border: '1px solid ' + event?.color?.primary
                     }">
-                    {{ formatHours(event.start) }} -
+                    {{ event.start | date: 'HH:mm a' }} -
                     {{ event.title }}
                 </span>
             </div>
@@ -66,3 +69,4 @@
         </div>
     </ng-template>
 </div>
+<app-modal></app-modal>

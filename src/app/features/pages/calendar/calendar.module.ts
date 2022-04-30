@@ -7,12 +7,15 @@ import { FormsModule } from '@angular/forms';
 import { CalendarComponent } from './calendar.component';
 import { CalendarRoutingModule } from './calendar.routing.module';
 import { TimeLyApiService } from '../../services/time-ly-api.service';
+import { ModalModule } from '../../../core/components/modal/modal.module';
+import { ModalService } from '../../../core/services/modal.service';
 
 @NgModule({
     declarations: [CalendarComponent],
     imports: [
         CommonModule,
         CalendarRoutingModule,
+        ModalModule,
         FormsModule,
         CalendarModule.forRoot({
             provide: DateAdapter,
@@ -20,6 +23,6 @@ import { TimeLyApiService } from '../../services/time-ly-api.service';
         }),
     ],
     exports: [CalendarComponent],
-    providers: [TimeLyApiService],
+    providers: [TimeLyApiService, ModalService],
 })
 export class AppCalendarModule {}

@@ -1,0 +1,88 @@
+<div *ngIf="data?.data">
+    <div class="modal-backdrop fade show" (click)="close()"></div>
+    <div [ngClass]="['modal fade', data ? 'show' : '']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">{{ data.title | date: 'mediumDate' }}</h4>
+                    <button type="button" class="btn-close" (click)="close()" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div *ngIf="events && !event" class="event-list">
+                        <h5>Events</h5>
+                        <div
+                            [ngClass]="['event-item', e.images && e.images[0]?.small ? 'hasImage' : '']"
+                            *ngFor="let e of events"
+                            (click)="showEvent(e)">
+                            <img *ngIf="e.images && e.images[0]?.small" [src]="e.images[0]?.small?.url" alt="event-image" />
+                            <div class="row">
+                                <div class="col-md-2 event-icon">
+                                    <span class="event-color" title="Event Tag color" [ngStyle]="{ 'background-color': e.color.primary }"></span>
+                                </div>
+                                <div class="col-md-10">
+                                    <h5 class="event-title">{{ e.title }}</h5>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-2 event-icon">
+                                    <i class="fa-regular fa-clock"></i>
+                                </div>
+                                <div class="col-md-10 event-duration">
+                                    <span>{{ e.start | date: 'HH:mm a' }}</span>
+                                    <span>{{ e.end | date: 'HH:mm a' }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 event-icon">
+                                    <i class="fa-solid fa-table-list"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <p class="event-description">{{ e.shortDescription }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="event">
+                        <div class="row">
+                            <div class="col-md-2 event-icon">
+                                <span class="event-color" title="Event Tag color" [ngStyle]="{ 'background-color': event.color.primary }"></span>
+                            </div>
+                            <div class="col-md-10">
+                                <h5 class="event-title">{{ event.title }}</h5>
+                            </div>
+                        </div>
+                        <div class="row my-2" *ngIf="event.images && event.images[0]?.small">
+                            <div class="col-md-2 event-icon">
+                                <i class="fa-regular fa-image"></i>
+                            </div>
+                            <div class="col-md-10">
+                                <img class="event-image" [src]="event.images[0]?.small?.url" alt="event-image" />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-2 event-icon">
+                                <i class="fa-regular fa-clock"></i>
+                            </div>
+                            <div class="col-md-10 event-duration">
+                                <span>Start{{ event.start > now ? '' : 'ed' }}: {{ event.start | date: 'medium' }}</span>
+                                <span>finish{{ event.end > now ? '' : 'ed' }}: {{ event.end | date: 'medium' }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 event-icon">
+                                <i class="fa-solid fa-table-list"></i>
+                            </div>
+                            <div class="col-md-10">
+                                <p class="event-description">{{ event.shortDescription }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="close()" *ngIf="!event">Close</button>
+                    <button type="button" class="btn btn-secondary" (click)="hideEvent()" *ngIf="event">back to all events</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

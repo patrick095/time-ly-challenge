@@ -4,11 +4,12 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FormsModule } from '@angular/forms';
 
-import { CalendarComponent } from './calendar.component';
-import { CalendarRoutingModule } from './calendar.routing.module';
-import { TimeLyApiService } from '../../services/time-ly-api.service';
+import { CoverterUtil } from '../../../core/utils/converter.util';
 import { ModalModule } from '../../../core/components/modal/modal.module';
 import { ModalService } from '../../../core/services/modal.service';
+import { TimeLyApiService } from '../../services/time-ly-api.service';
+import { CalendarComponent } from './calendar.component';
+import { CalendarRoutingModule } from './calendar.routing.module';
 
 @NgModule({
     declarations: [CalendarComponent],
@@ -23,6 +24,6 @@ import { ModalService } from '../../../core/services/modal.service';
         }),
     ],
     exports: [CalendarComponent],
-    providers: [TimeLyApiService, ModalService],
+    providers: [TimeLyApiService, ModalService, CoverterUtil],
 })
 export class AppCalendarModule {}

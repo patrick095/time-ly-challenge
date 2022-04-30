@@ -1,15 +1,18 @@
 <div class="calendar-page">
     <div class="row text-center calendar-header">
         <div class="col-md-6">
-            <div class="d-flex">
-                <div class="btn btn-outline-secondary mx-5" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
+            <div class="d-flex align-items-center">
+                <div class="btn btn-primary mx-5" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
                 <div class="btn btn-next-prev" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" title="Previous">
                     <i class="fa-solid fa-chevron-left"></i>
                 </div>
                 <div class="btn btn-next-prev" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" title="Next">
                     <i class="fa-solid fa-chevron-right"></i>
                 </div>
-                <div [ngClass]="['search', isShowSearchInput ? '' : 'hide-border']">
+                <div class="col-md-4">
+                    <h3>{{ viewDate | calendarDate: view + 'ViewTitle':'en' }}</h3>
+                </div>
+                <div [ngClass]="['search mx-3', isShowSearchInput ? '' : 'hide-border']">
                     <input
                         type="text"
                         [ngClass]="[isShowSearchInput ? '' : 'hide-input']"
@@ -23,9 +26,6 @@
                     <button type="submit" (click)="showSearch()" [ngClass]="['btn', isShowSearchInput ? 'btn-light' : 'btn-primary']">
                         <i [ngClass]="['fa-solid', isShowSearchInput ? 'fa-xmark' : 'fa-magnifying-glass']"></i>
                     </button>
-                </div>
-                <div class="col-md-4">
-                    <h3>{{ viewDate | calendarDate: view + 'ViewTitle':'en' }}</h3>
                 </div>
             </div>
         </div>

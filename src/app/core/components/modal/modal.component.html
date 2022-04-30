@@ -76,11 +76,19 @@
                                 <p class="event-description">{{ event.shortDescription }}</p>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-2 event-icon"></div>
+                            <div class="col-md-10">
+                                <a class="btn btn-primary" [href]="event.shareLink" target="_blank" rel="noreferrer noopener"
+                                    ><i class="fa-solid fa-share-nodes"></i> Share this Event!</a
+                                >
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" (click)="close()" *ngIf="!event">Close</button>
-                    <button type="button" class="btn btn-secondary" (click)="hideEvent()" *ngIf="event">back to all events</button>
+                    <button type="button" class="btn btn-danger" (click)="close()" *ngIf="!event">Close</button>
+                    <button type="button" class="btn btn-secondary" (click)="hideEvent()" *ngIf="event">Back to all events</button>
                 </div>
             </div>
         </div>

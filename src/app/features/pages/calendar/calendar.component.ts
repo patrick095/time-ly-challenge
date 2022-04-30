@@ -1,12 +1,13 @@
 import { Component, ChangeDetectionStrategy, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { CalendarView } from 'angular-calendar';
-import { CalendarEvent, CalendarEventTimelyInterface } from '../../../core/interfaces/calendar-events.interface';
+import { CalendarEvent } from '../../../core/interfaces/calendar-events.interface';
 import { ColorInterface } from '../../../core/interfaces/color.interface';
 import { basicColors } from '../../../core/config/basic-colors';
 import { environment } from '../../../../environments/environment';
 import { ModalService } from '../../../core/services/modal.service';
 import { TimeLyApiService } from '../../services/time-ly-api.service';
+import { CoverterUtil } from '../../../core/utils/converter.util';
 
 @Component({
     selector: 'app-mwl-demo-component',
@@ -33,7 +34,7 @@ export class CalendarComponent implements OnInit {
     private id: number;
     private urlId: string;
 
-    constructor(private apiService: TimeLyApiService, private modal: ModalService) {
+    constructor(private apiService: TimeLyApiService, private modal: ModalService, private converter: CoverterUtil) {
         this.colors = basicColors;
         this.urlId = environment.calendarUrlId;
         this.isShowSearchInput = false;
@@ -49,7 +50,7 @@ export class CalendarComponent implements OnInit {
 
     public getEvents(): void {
         this.apiService.getCalendarEvents(this.id).subscribe((events) => {
-            this.events = events.data.items.map((event) => this.convertApiEventToCalendarEvent(event)).reverse();
+            this.events = events.data.items.map((event) => this.converter.ApiDataToCalendarEvent(event, this.colors)).reverse();
             this.refresh.next();
         });
     }
@@ -64,6 +65,9 @@ export class CalendarComponent implements OnInit {
         this.console(value);
         if (value === '') {
             this.clearSearch();
+        }
+        if (value.length >= 8) {
+            this.viewDate = new Date(value);
         }
     }
 
@@ -95,25 +99,5 @@ export class CalendarComponent implements OnInit {
     private clearSearch(): void {
         this.searchInput.nativeElement.value = '';
         this.eventFinder = [];
-    }
-
-    private convertApiEventToCalendarEvent(event: CalendarEventTimelyInterface): CalendarEvent {
-        return {
-            start: new Date(event.start_datetime),
-            end: new Date(event.end_datetime),
-            title: event.title,
-            color:
-                event.taxonomies && event.taxonomies.taxonomy_category && event.taxonomies.taxonomy_category[0].color
-                    ? event.taxonomies.taxonomy_category[0].color
-                    : this.colors.blue,
-            allDay: true,
-            resizable: {
-                beforeStart: true,
-                afterEnd: true,
-            },
-            draggable: true,
-            shortDescription: event.description_short,
-            images: event.images,
-        };
     }
 }

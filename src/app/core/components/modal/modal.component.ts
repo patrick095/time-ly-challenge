@@ -29,12 +29,16 @@ export class ModalComponent implements OnInit {
                 } else {
                     this.event = data.data;
                 }
+            } else {
+                this.close();
             }
         });
     }
 
     public close(): void {
-        this.service.close();
+        this.data = null;
+        this.event = null;
+        this.events = [];
     }
 
     public showEvent(event: CalendarEvent): void {

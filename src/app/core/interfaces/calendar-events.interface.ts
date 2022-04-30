@@ -220,6 +220,7 @@ export interface CalendarEvent<MetaType = any> {
     description?: string;
     shortDescription?: string;
     images?: Image[];
+    shareLink?: string;
 }
 
 export interface EventColor {

@@ -1,184 +1,68 @@
 <div class="calendar-page">
-    <div class="row text-center">
-        <div class="col-md-4">
-            <div class="btn-group">
-                <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
-                    Previous
+    <div class="row text-center calendar-header">
+        <div class="col-md-6">
+            <div class="d-flex">
+                <div class="btn btn-outline-secondary mx-5" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
+                <div
+                    class="btn btn-next-prev"
+                    mwlCalendarPreviousView
+                    [view]="view"
+                    [(viewDate)]="viewDate"
+                    title="Previous"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </div>
-                <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
-                <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
-                    Next
+                <div
+                    class="btn btn-next-prev"
+                    mwlCalendarNextView
+                    [view]="view"
+                    [(viewDate)]="viewDate"
+                    title="Next"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+                <div class="col-md-4">
+                    <h3>{{ viewDate | calendarDate: view + 'ViewTitle':'en' }}</h3>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <h3>{{ viewDate | calendarDate: view + 'ViewTitle':'en' }}</h3>
-        </div>
-        <!-- <div class="col-md-4">
-            <div class="btn-group">
-                <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">Month</div>
-                <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">Week</div>
-                <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">Day</div>
-            </div>
-        </div> -->
     </div>
-    <br />
-    <div [ngSwitch]="view">
+    <div class="calendar-body">
         <mwl-calendar-month-view
-            *ngSwitchCase="CalendarView.Month"
             [viewDate]="viewDate"
             [events]="events"
             [refresh]="refresh"
             [activeDayIsOpen]="activeDayIsOpen"
-            (dayClicked)="dayClicked($event.day)"
-            (eventClicked)="handleEvent('Clicked', $event.event)"
             (eventTimesChanged)="eventTimesChanged($event)"
             [cellTemplate]="customCellTemplate">
         </mwl-calendar-month-view>
-        <ng-template #customCellTemplate let-day="day" let-locale="locale">
-            <div class="cal-cell-top">
-                <div *ngIf="day.badgeTotal > 0">
-                    <span
-                        class="cal-day-badge"
-                        *ngFor="let event of day.events | slice: 0:3"
-                        (click)="console(day)"
-                        [ngStyle]="{ 'background-color': event?.color?.primary, color: event?.color?.secondary }">
-                        {{ event.badgeTotal }}
-                        >{{ event.title.length > 30 ? (event.title | slice: 0:30) + '...' : event.title }}</span
-                    >
-                </div>
-                <span class="cal-day-number">{{ day.date | calendarDate: 'monthViewDayNumber':locale }}</span>
-            </div>
-            <div class="cell-totals">
-                <span *ngFor="let group of day.eventGroups" class="badge badge-{{ group[0] }}">
-                    {{ group[1].length }}
+    </div>
+    <ng-template #customCellTemplate let-day="day" let-locale="locale">
+        <div class="cal-cell-top">
+            <span *ngIf="day.badgeTotal > 3" class="cal-day-badge-more" [title]="'has ' + day.badgeTotal + ' events on this day'">
+                {{ day.badgeTotal - 3 }} More
+            </span>
+            <div *ngIf="day.events.length > 0" class="cal-day-event-list">
+                <span
+                    class="cal-day-event"
+                    *ngFor="let event of day.events | slice: 0:3"
+                    (click)="console(day)"
+                    [title]="event.title"
+                    [ngStyle]="{
+                        'background-color': event?.color?.secondary,
+                        color: event?.color?.primary,
+                        border: '1px solid ' + event?.color?.primary
+                    }">
+                    {{ formatHours(event.start) }} -
+                    {{ event.title }}
                 </span>
             </div>
-        </ng-template>
-        <mwl-calendar-week-view
-            *ngSwitchCase="CalendarView.Week"
-            [viewDate]="viewDate"
-            [events]="events"
-            [refresh]="refresh"
-            (eventClicked)="handleEvent('Clicked', $event.event)"
-            (eventTimesChanged)="eventTimesChanged($event)"
-            (hourSegmentClicked)="console($event)">
-        </mwl-calendar-week-view>
-        <mwl-calendar-day-view
-            *ngSwitchCase="CalendarView.Day"
-            [viewDate]="viewDate"
-            [events]="events"
-            [refresh]="refresh"
-            (eventClicked)="handleEvent('Clicked', $event.event)"
-            (eventTimesChanged)="eventTimesChanged($event)"
-            (hourSegmentClicked)="console($event)">
-        </mwl-calendar-day-view>
-    </div>
-
-    <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
-
-    <!-- <br /><br /><br />
-
-  <h3>
-    Edit events
-    <button class="btn btn-primary float-right" (click)="addEvent()">
-      Add new
-    </button>
-    <div class="clearfix"></div>
-  </h3>
-
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Primary color</th>
-          <th>Secondary color</th>
-          <th>Starts at</th>
-          <th>Ends at</th>
-          <th>Remove</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let event of events">
-          <td>
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="event.title"
-              (keyup)="refresh.next()"
-            />
-          </td>
-          <td>
-            <input
-              type="color"
-              [(ngModel)]="event.color.primary"
-              (change)="refresh.next()"
-            />
-          </td>
-          <td>
-            <input
-              type="color"
-              [(ngModel)]="event.color.secondary"
-              (change)="refresh.next()"
-            />
-          </td>
-          <td>
-            <input
-              class="form-control"
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.start"
-              (ngModelChange)="refresh.next()"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-            />
-          </td>
-          <td>
-            <input
-              class="form-control"
-              type="text"
-              mwlFlatpickr
-              [(ngModel)]="event.end"
-              (ngModelChange)="refresh.next()"
-              dateFormat="Y-m-dTH:i"
-              altFormat="F j, Y H:i"
-              placeholder="Not set"
-            />
-          </td>
-          <td>
-            <button class="btn btn-danger" (click)="deleteEvent(event)">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <ng-template #modalContent let-close="close">
-    <div class="modal-header">
-      <h5 class="modal-title">Event action occurred</h5>
-      <button type="button" class="close" (click)="close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div>
-        Action:
-        <pre>{{ modalData?.action }}</pre>
-      </div>
-      <div>
-        Event:
-        <pre>{{ modalData?.event | json }}</pre>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="close()">
-        OK
-      </button>
-    </div>
-  </ng-template> -->
+            <span class="cal-day-number">{{ day.date | calendarDate: 'monthViewDayNumber':locale }}</span>
+        </div>
+        <div class="cell-totals">
+            <span *ngFor="let group of day.eventGroups" class="badge badge-{{ group[0] }}">
+                {{ group[1].length }}
+            </span>
+        </div>
+    </ng-template>
 </div>

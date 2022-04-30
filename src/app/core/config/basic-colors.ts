@@ -7,7 +7,7 @@ export const basicColors: ColorInterface = {
     },
     blue: {
         primary: '#1e90ff',
-        secondary: '#D1E8FF',
+        secondary: '#FFFFFF',
     },
     yellow: {
         primary: '#e3bc08',

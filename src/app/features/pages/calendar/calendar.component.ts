@@ -131,12 +131,16 @@ export class CalendarComponent implements OnInit {
         this.events = this.events.filter((event) => event !== eventToDelete);
     }
 
-    setView(view: CalendarView) {
-        this.view = view;
-    }
-
     closeOpenMonthViewDay() {
         this.activeDayIsOpen = false;
+    }
+
+    public formatHours(date: Date): string {
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'pm' : 'am';
+        const strTime = `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes} ${ampm}`;
+        return strTime;
     }
 
     private convertApiEventToCalendarEvent(event: CalendarEventTimelyInterface): CalendarEvent {

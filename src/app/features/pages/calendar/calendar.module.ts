@@ -6,20 +6,20 @@ import { FormsModule } from '@angular/forms';
 
 import { CalendarComponent } from './calendar.component';
 import { CalendarRoutingModule } from './calendar.routing.module';
-
-
+import { TimeLyApiService } from '../../services/time-ly-api.service';
 
 @NgModule({
-  declarations: [CalendarComponent],
-  imports: [
-    CommonModule,
-    CalendarRoutingModule,
-    FormsModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-  ],
-  exports: [CalendarComponent]
+    declarations: [CalendarComponent],
+    imports: [
+        CommonModule,
+        CalendarRoutingModule,
+        FormsModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
+    ],
+    exports: [CalendarComponent],
+    providers: [TimeLyApiService],
 })
-export class AppCalendarModule { }
+export class AppCalendarModule {}

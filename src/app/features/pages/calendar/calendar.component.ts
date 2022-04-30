@@ -55,19 +55,16 @@ export class CalendarComponent implements OnInit {
         });
     }
 
-    public console(item: any) {
-        // eslint-disable-next-line no-console
-        console.log(item);
-    }
-
     public search(value: string) {
+        const date = this.converter.stringToDate(value);
         this.eventFinder = this.events.filter((event) => event.title.toLowerCase().includes(value));
-        this.console(value);
+
         if (value === '') {
             this.clearSearch();
         }
-        if (value.length >= 8) {
-            this.viewDate = new Date(value);
+
+        if (date) {
+            this.viewDate = new Date(date);
         }
     }
 

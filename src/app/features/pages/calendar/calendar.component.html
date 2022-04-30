@@ -1,27 +1,33 @@
 <div class="calendar-page">
     <div class="row text-center calendar-header">
-        <div class="col-md-6">
+        <div class="col">
             <div class="d-flex align-items-center">
-                <div class="btn btn-primary mx-5" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
-                <div class="btn btn-next-prev" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" title="Previous">
+                <div class="btn btn-next-prev ms-5" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" title="Previous">
                     <i class="fa-solid fa-chevron-left"></i>
                 </div>
                 <div class="btn btn-next-prev" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" title="Next">
                     <i class="fa-solid fa-chevron-right"></i>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <h3>{{ viewDate | calendarDate: view + 'ViewTitle':'en' }}</h3>
                 </div>
+                <div class="btn btn-primary" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
                 <div [ngClass]="['search mx-3', isShowSearchInput ? '' : 'hide-border']">
                     <input
                         type="text"
                         [ngClass]="[isShowSearchInput ? '' : 'hide-input']"
-                        placeholder="Search event"
+                        placeholder="Search event or date m/d/yyyy"
                         #searchInput
+                        [matDatepicker]="picker"
+                        (dateChange)="viewDate = $event.target.value"
                         (input)="search($event.target.value)" />
-                    <div *ngIf="eventFinder.length > 0" class="datalist">
-                        <span *ngFor="let event of eventFinder" (click)="clickSearchResult(event)">{{ event.title }}</span>
-                    </div>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <ng-container *ngIf="isShowSearchInput">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <div *ngIf="eventFinder.length > 0" class="datalist">
+                            <span *ngFor="let event of eventFinder" (click)="clickSearchResult(event)">{{ event.title }}</span>
+                        </div>
+                    </ng-container>
 
                     <button type="submit" (click)="showSearch()" [ngClass]="['btn', isShowSearchInput ? 'btn-light' : 'btn-primary']">
                         <i [ngClass]="['fa-solid', isShowSearchInput ? 'fa-xmark' : 'fa-magnifying-glass']"></i>
@@ -49,7 +55,6 @@
                 <span
                     class="cal-day-event"
                     *ngFor="let event of day.events | slice: 0:3"
-                    (click)="console(event)"
                     [title]="event.title"
                     [ngStyle]="{
                         'background-color': event?.color?.secondary,

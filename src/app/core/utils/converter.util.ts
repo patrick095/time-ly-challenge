@@ -1,3 +1,4 @@
+import { parse, isValid } from 'date-fns';
 import { CalendarEvent, CalendarEventTimelyInterface } from '../interfaces/calendar-events.interface';
 import { ColorInterface } from '../interfaces/color.interface';
 
@@ -21,5 +22,13 @@ export class CoverterUtil {
             images: event.images,
             shareLink: event.url,
         };
+    }
+
+    public stringToDate(date: string): Date | null {
+        const parsedDate = parse(date);
+        if (isValid(parsedDate) && parsedDate > new Date('01-01-1970')) {
+            return parsedDate;
+        }
+        return null;
     }
 }

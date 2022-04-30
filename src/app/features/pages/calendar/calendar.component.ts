@@ -63,7 +63,7 @@ export class CalendarComponent implements OnInit {
         this.eventFinder = this.events.filter((event) => event.title.toLowerCase().includes(value));
         this.console(value);
         if (value === '') {
-            this.eventFinder = [];
+            this.clearSearch();
         }
     }
 
@@ -72,13 +72,12 @@ export class CalendarComponent implements OnInit {
         if (this.isShowSearchInput) {
             this.searchInput.nativeElement.focus();
         } else {
-            this.searchInput.nativeElement.value = '';
-            this.eventFinder = [];
+            this.clearSearch();
         }
     }
 
     public clickSearchResult(event: CalendarEvent) {
-        this.eventFinder = [];
+        this.clearSearch();
         this.openModal({
             date: event.start,
             events: [event],
@@ -91,6 +90,11 @@ export class CalendarComponent implements OnInit {
             data: events,
         };
         this.modal.open(modalData);
+    }
+
+    private clearSearch(): void {
+        this.searchInput.nativeElement.value = '';
+        this.eventFinder = [];
     }
 
     private convertApiEventToCalendarEvent(event: CalendarEventTimelyInterface): CalendarEvent {

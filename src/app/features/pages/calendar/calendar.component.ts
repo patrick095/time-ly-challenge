@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 import { TimeLyApiService } from '../../services/time-ly-api.service';
 
 @Component({
-    selector: 'mwl-demo-component',
+    selector: 'app-mwl-demo-component',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['./calendar.component.scss'],
     templateUrl: './calendar.component.html',
@@ -50,7 +50,7 @@ export class CalendarComponent implements OnInit {
 
     public events: CalendarEvent[];
 
-    public activeDayIsOpen: boolean = false;
+    public activeDayIsOpen = false;
 
     private colors: ColorInterface;
     private id: number;

@@ -26,7 +26,7 @@ export class CoverterUtil {
 
     public stringToDate(date: string): Date | null {
         const parsedDate = parse(date);
-        if (isValid(parsedDate) && parsedDate > new Date('01-01-1970')) {
+        if (isValid(parsedDate) && parsedDate > new Date('01-01-1970') && date.length >= 8) {
             return parsedDate;
         }
         return null;

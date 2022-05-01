@@ -8,10 +8,10 @@
                 <div class="btn btn-next-prev" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" title="Next">
                     <i class="fa-solid fa-chevron-right"></i>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 calendar-title">
                     <h3>{{ viewDate | calendarDate: view + 'ViewTitle':'en' }}</h3>
                 </div>
-                <div class="btn btn-primary" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
+                <div class="btn btn-primary btn-today" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
                 <div [ngClass]="['search mx-3', isShowSearchInput ? '' : 'hide-border']">
                     <input
                         type="text"
@@ -22,12 +22,12 @@
                         (dateChange)="viewDate = $event.target.value"
                         (input)="search($event.target.value)" />
                     <mat-datepicker #picker></mat-datepicker>
-                    <ng-container *ngIf="isShowSearchInput">
+                    <div *ngIf="isShowSearchInput">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <div *ngIf="eventFinder.length > 0" class="datalist">
                             <span *ngFor="let event of eventFinder" (click)="clickSearchResult(event)">{{ event.title }}</span>
                         </div>
-                    </ng-container>
+                    </div>
 
                     <button type="submit" (click)="showSearch()" [ngClass]="['btn', isShowSearchInput ? 'btn-light' : 'btn-primary']">
                         <i [ngClass]="['fa-solid', isShowSearchInput ? 'fa-xmark' : 'fa-magnifying-glass']"></i>

@@ -54,22 +54,22 @@ export interface Full2 {
 }
 
 export interface Image {
-    small: Small;
-    thumbnail: Thumbnail;
-    reference_id: number;
-    file_name: string;
-    created_at: string;
-    medium: Medium;
-    title: string;
+    small?: Small;
+    thumbnail?: Thumbnail;
+    reference_id?: number;
+    file_name?: string;
+    created_at?: string;
+    medium?: Medium;
+    title?: string;
     deleted_at?: any;
-    file_size: number;
-    sizes: Sizes;
-    updated_at: string;
-    file_hash: string;
-    mime_type: string;
-    user_id: number;
+    file_size?: number;
+    sizes?: Sizes;
+    updated_at?: string;
+    file_hash?: string;
+    mime_type?: string;
+    user_id?: number;
     id?: number;
-    full: Full2;
+    full?: Full2;
 }
 
 export interface TaxonomyVenue {
@@ -98,8 +98,9 @@ export interface TaxonomyVenue {
 }
 
 export interface Pivot {
-    taxonomy_id: string;
-    event_id: string;
+    taxonomy_id?: string;
+    event_id?: string;
+    organizer_id?: string;
 }
 
 export interface Datum {
@@ -109,7 +110,7 @@ export interface Datum {
     updated_at: string;
     item_type: string;
     created_at: string;
-    pivot: Pivot;
+    pivot?: Pivot;
     id: number;
     image_id?: any;
     title: string;
@@ -129,11 +130,6 @@ export interface TaxonomyFilterGroup {
     deleted_at?: any;
 }
 
-export interface Pivot2 {
-    taxonomy_id: string;
-    event_id: string;
-}
-
 export interface TaxonomyCategory {
     image?: any;
     reference_id: number;
@@ -141,18 +137,23 @@ export interface TaxonomyCategory {
     updated_at: string;
     item_type: string;
     created_at: string;
-    pivot: Pivot2;
+    pivot: Pivot;
     id: number;
     image_id?: any;
     title: string;
     deleted_at?: any;
     filter_group_id?: any;
+    website?: string;
+    phone?: string;
+    website_title?: string;
+    email?: string;
 }
 
 export interface Taxonomies {
-    taxonomy_venue: TaxonomyVenue[];
-    taxonomy_filter_group: TaxonomyFilterGroup[];
-    taxonomy_category: TaxonomyCategory[];
+    taxonomy_venue?: TaxonomyVenue[];
+    taxonomy_filter_group?: TaxonomyFilterGroup[];
+    taxonomy_category?: TaxonomyCategory[];
+    taxonomy_organizer?: TaxonomyCategory[];
 }
 
 export interface CalendarEventTimelyInterface {
@@ -173,7 +174,7 @@ export interface CalendarEventTimelyInterface {
     event_status: string;
     custom_url: string;
     tickets_count: number;
-    images: Image[];
+    images?: Image[];
     cost?: any;
     cost_external_url?: any;
     calendar_id: number;
@@ -183,7 +184,7 @@ export interface CalendarEventTimelyInterface {
     tickets_currency?: any;
     allday: boolean;
     description_short: string;
-    taxonomies: Taxonomies;
+    taxonomies?: Taxonomies;
     user: string;
     url: string;
     canonical_url: string;

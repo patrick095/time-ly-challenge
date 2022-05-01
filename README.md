@@ -1,4 +1,4 @@
-# Time.ly Challenge Test
+# Time.ly Challenge Test for Frontend Developer
 
 [Challenge PDF](/src/assets/Application%20for%20FrontEnd%20Developer%20Timely.pdf)
 

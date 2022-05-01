@@ -6,10 +6,11 @@
     "start": "ng serve",
     "build": "npm run lint && ng build",
     "test": "ng test --code-coverage",
-    "test:ci": "npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage",
+    "test:ci": "npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage && npm run make-badges",
     "lint": "ng lint",
     "lint:fix": "npx eslint . --ext .ts,.tsx --fix",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "make-badges": "istanbul-badges-readme --coverageDir='./coverage/time-ly-challenge-test'"
   },
   "private": true,
   "dependencies": {
@@ -43,6 +44,7 @@
     "eslint": "^8.14.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
+    "istanbul-badges-readme": "^1.8.1",
     "jasmine-core": "3.8",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",

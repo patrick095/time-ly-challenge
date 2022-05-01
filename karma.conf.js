@@ -17,7 +17,7 @@ module.exports = function (config) {
         },
         coverageIstanbulReporter: {
             dir: require('path').join(__dirname, './coverage/time-ly-challenge-test'),
-            reports: ['html', 'lcovonly', 'text-summary'],
+            reports: ['html', 'lcovonly', 'json-summary'],
             fixWebpackSourcePaths: true,
         },
         coverageReporter: {

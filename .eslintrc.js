@@ -1,13 +1,13 @@
 module.exports = {
     env: {
         browser: true,
-        es2021: true
+        es2021: true,
     },
     extends: ['airbnb-base', 'airbnb-typescript/base'],
     parserOptions: {
         project: './tsconfig.eslint.json',
         ecmaVersion: 13,
-        sourceType: 'module'
+        sourceType: 'module',
     },
     parser: '@typescript-eslint/parser',
     plugins: ['@typescript-eslint'],
@@ -22,11 +22,11 @@ module.exports = {
         'no-empty-function': 'off',
         '@typescript-eslint/no-empty-function': 'off',
         'class-methods-use-this': 'off',
-        'max-len': 'off',
+        'max-len': [2, 140],
         'lines-between-class-members': 'off',
         '@typescript-eslint/lines-between-class-members': 'off',
         'comma-dangle': 'off',
         '@typescript-eslint/comma-dangle': 'off',
-        'object-curly-newline': 'off'
-    }
+        'object-curly-newline': 'off',
+    },
 };

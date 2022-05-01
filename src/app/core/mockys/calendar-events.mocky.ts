@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { CalendarEventsInterface } from '../interfaces/calendar-events.interface';
 
 export const calendarEventsMocky: CalendarEventsInterface = {
